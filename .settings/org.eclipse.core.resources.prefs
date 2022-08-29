@@ -1,0 +1,7 @@
+eclipse.preferences.version=1
+encoding//src/main/java/com/kpcnc/controller/BoardController.java=UTF-8
+encoding//src/main/java/com/kpcnc/dao/BoardDAO.java=UTF-8
+encoding//src/main/java/com/kpcnc/dao/BoardDAOImpl.java=UTF-8
+encoding//src/main/java/com/kpcnc/service/BoardService.java=UTF-8
+encoding//src/main/java/com/kpcnc/service/BoardServiceImpl.java=UTF-8
+encoding//src/main/java/com/kpcnc/service/ReplyService.java=UTF-8

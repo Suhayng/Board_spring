@@ -1,5 +1,4 @@
 package com.kpcnc.util;
-
 import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -7,24 +6,22 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
-
 import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
-
 import com.kpcnc.vo.BoardVO;
 
 @Component("fileUtils")
 public class FileUtils {
-	private static final String filePath = "C:\\mp\\file\\"; // íŒŒì¼ì´ ì €ì¥ë  ìœ„ì¹˜
+	private static final String filePath = "C:\\mp\\file\\"; // ÆÄÀÏÀÌ ÀúÀåµÉ À§Ä¡
 	
 	public List<Map<String, Object>> parseInsertFileInfo(BoardVO boardVO, 
 			MultipartHttpServletRequest mpRequest) throws Exception{
 		
 		/*
-			Iteratorì€ ë°ì´í„°ë“¤ì˜ ì§‘í•©ì²´? ì—ì„œ ì»¬ë ‰ì…˜ìœ¼ë¡œë¶€í„° ì •ë³´ë¥¼ ì–»ì–´ì˜¬ ìˆ˜ ìˆëŠ” ì¸í„°í˜ì´ìŠ¤ì…ë‹ˆë‹¤.
-			Listë‚˜ ë°°ì—´ì€ ìˆœì°¨ì ìœ¼ë¡œ ë°ì´í„°ì˜ ì ‘ê·¼ì´ ê°€ëŠ¥í•˜ì§€ë§Œ, Mapë“±ì˜ í´ë˜ìŠ¤ë“¤ì€ ìˆœì°¨ì ìœ¼ë¡œ ì ‘ê·¼í•  ìˆ˜ê°€ ì—†ìŠµë‹ˆë‹¤.
-			Iteratorì„ ì´ìš©í•˜ì—¬ Mapì— ìˆëŠ” ë°ì´í„°ë“¤ì„ whileë¬¸ì„ ì´ìš©í•˜ì—¬ ìˆœì°¨ì ìœ¼ë¡œ ì ‘ê·¼í•©ë‹ˆë‹¤.
+			IteratorÀº µ¥ÀÌÅÍµéÀÇ ÁıÇÕÃ¼? ¿¡¼­ ÄÃ·º¼ÇÀ¸·ÎºÎÅÍ Á¤º¸¸¦ ¾ò¾î¿Ã ¼ö ÀÖ´Â ÀÎÅÍÆäÀÌ½ºÀÔ´Ï´Ù.
+			List³ª ¹è¿­Àº ¼øÂ÷ÀûÀ¸·Î µ¥ÀÌÅÍÀÇ Á¢±ÙÀÌ °¡´ÉÇÏÁö¸¸, MapµîÀÇ Å¬·¡½ºµéÀº ¼øÂ÷ÀûÀ¸·Î Á¢±ÙÇÒ ¼ö°¡ ¾ø½À´Ï´Ù.
+			IteratorÀ» ÀÌ¿ëÇÏ¿© Map¿¡ ÀÖ´Â µ¥ÀÌÅÍµéÀ» while¹®À» ÀÌ¿ëÇÏ¿© ¼øÂ÷ÀûÀ¸·Î Á¢±ÙÇÕ´Ï´Ù.
 		*/
 		
 		Iterator<String> iterator = mpRequest.getFileNames();
@@ -50,7 +47,6 @@ public class FileUtils {
 				originalFileName = multipartFile.getOriginalFilename();
 				originalFileExtension = originalFileName.substring(originalFileName.lastIndexOf("."));
 				storedFileName = getRandomString() + originalFileExtension;
-				
 				file = new File(filePath + storedFileName);
 				multipartFile.transferTo(file);
 				listMap = new HashMap<String, Object>();
@@ -63,6 +59,43 @@ public class FileUtils {
 		}
 		return list;
 	}
+	
+	public List<Map<String, Object>> parseUpdateFileInfo(BoardVO boardVO, String[] files, String[] fileNames, MultipartHttpServletRequest mpRequest) throws Exception{ 
+		Iterator<String> iterator = mpRequest.getFileNames();
+		MultipartFile multipartFile = null; 
+		String originalFileName = null; 
+		String originalFileExtension = null; 
+		String storedFileName = null; 
+		List<Map<String,Object>> list = new ArrayList<Map<String,Object>>();
+		Map<String, Object> listMap = null; 
+		int bno = boardVO.getBno();
+		while(iterator.hasNext()){ 
+			multipartFile = mpRequest.getFile(iterator.next()); 
+			if(multipartFile.isEmpty() == false){ 
+				originalFileName = multipartFile.getOriginalFilename(); 
+				originalFileExtension = originalFileName.substring(originalFileName.lastIndexOf(".")); 
+				storedFileName = getRandomString() + originalFileExtension; 
+				multipartFile.transferTo(new File(filePath + storedFileName)); 
+				listMap = new HashMap<String,Object>();
+				listMap.put("IS_NEW", "Y");
+				listMap.put("BNO", bno); 
+				listMap.put("ORG_FILE_NAME", originalFileName);
+				listMap.put("STORED_FILE_NAME", storedFileName); 
+				listMap.put("FILE_SIZE", multipartFile.getSize()); 
+				list.add(listMap); 
+			} 
+		}
+		if(files != null && fileNames != null){ 
+			for(int i = 0; i<fileNames.length; i++) {
+					listMap = new HashMap<String,Object>();
+                    listMap.put("IS_NEW", "N");
+					listMap.put("FILE_NO", files[i]); 
+					list.add(listMap); 
+			}
+		}
+		return list; 
+	}
+
 	
 	public static String getRandomString() {
 		return UUID.randomUUID().toString().replaceAll("-", "");

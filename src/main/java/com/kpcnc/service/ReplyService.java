@@ -6,19 +6,19 @@ import com.kpcnc.vo.ReplyVO;
 
 public interface ReplyService {
 	
-	// 댓글 조회 
+	// �뙎湲� 議고쉶 
 	public List<ReplyVO> readReply(int bno) throws Exception;
 	
-	// 댓글 작성 
-	public void wirteReply(ReplyVO vo) throws Exception;
+	// �뙎湲� �옉�꽦 
+	public void writeReply(ReplyVO vo) throws Exception;
 	
-	// 댓글 수정 
+	// �뙎湲� �닔�젙 
 	public void updateReply(ReplyVO vo) throws Exception;
 	
-	// 댓글 삭제 
+	// �뙎湲� �궘�젣 
 	public void deleteReply(ReplyVO vo) throws Exception;
 	
-	// 선택된 댓글 조회
+	// �꽑�깮�맂 �뙎湲� 議고쉶
 	public ReplyVO selectReply(int rno) throws Exception;
 		
 }

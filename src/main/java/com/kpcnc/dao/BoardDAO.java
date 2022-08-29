@@ -9,31 +9,36 @@ import com.kpcnc.vo.SearchCriteria;
 
 public interface BoardDAO {
 
-	// 게시글 작성
+	// 寃뚯떆湲� �옉�꽦
 	public void write(BoardVO boardVO) throws Exception;
 
-	// 게시물 목록 조회
+	// 寃뚯떆臾� 紐⑸줉 議고쉶
 	public List<BoardVO> list(SearchCriteria scri) throws Exception;
 	
-	// 게시물 총 갯수 
+	// 寃뚯떆臾� 珥� 媛��닔 
 	public int listCount(SearchCriteria scri) throws Exception;
 	
-	// 게시물 조회
+	// 寃뚯떆臾� 議고쉶
 	public BoardVO read(int bno) throws Exception;
 	
-	// 게시물 수정
+	// 寃뚯떆臾� �닔�젙
 	public void update(BoardVO boardVO) throws Exception;
 		
-	// 게시물 삭제
+	// 寃뚯떆臾� �궘�젣
 	public void delete(int bno) throws Exception;
 	
-	// 첨부파일 업로드
+	// 泥⑤��뙆�씪 �뾽濡쒕뱶
 	public void insertFile(Map<String,Object> map) throws Exception;
 	
-	// 첨부파일 조회
+	// 泥⑤��뙆�씪 議고쉶
 	public List<Map<String, Object>> selectFileList(int bno) throws Exception;
 
-	// 첨부파일 다운
+	// 첨부파일 다운 
 	public Map<String, Object> selectFileInfo(Map<String, Object> map) throws Exception;
 	
+	// 첨부파일 수정 
+	public void updateFile(Map<String, Object> map) throws Exception;
+
+	// 게시판 조회수 
+	public void boardHit(int bno) throws Exception;
 }
